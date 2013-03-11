@@ -37,8 +37,6 @@ describe Gitlab::Client do
     end
   end
 
-
-
   describe ".transfer_project_to_group" do
     before do
       stub_post("/projects", "project")
