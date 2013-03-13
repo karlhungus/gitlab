@@ -23,7 +23,7 @@ class Gitlab::Client
     # @param  [Integer] group_id
     # @param  [Integer] project_id
     def transfer_project_to_group(group_id, project_id)
-      body = {:group_id => group_id, :project_id => project_id}
+      body = {:id => group_id, :project_id => project_id}
       post("/groups/#{group_id}/projects/#{project_id}", :body => body)
     end
 
