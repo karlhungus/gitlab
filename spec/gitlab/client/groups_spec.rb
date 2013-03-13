@@ -51,7 +51,7 @@ describe Gitlab::Client do
     end
 
     it "should post to the correct resource" do
-      a_post("/groups/#{@group.id}/projects/#{@project.id}").with(:body => {:group_id => @group.id.to_s, :project_id => @project.id.to_s}).should have_been_made
+      a_post("/groups/#{@group.id}/projects/#{@project.id}").with(:body => {:id => @group.id.to_s, :project_id => @project.id.to_s}).should have_been_made
     end
 
     it "should return information about the group" do
