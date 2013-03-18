@@ -23,17 +23,34 @@ describe Gitlab::Client do
   describe ".create_group" do
     before do
       stub_post("/groups", "group_create")
-      @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
     end
 
     it "should get the correct resource" do
+      @group = Gitlab.create_group('GitLab-Group', {:path =>'gitlab-path'})
       a_post("/groups").
           with(:body => {:path => 'gitlab-path', :name => 'GitLab-Group'}).should have_been_made
     end
 
     it "should return information about a created group" do
+      @group = Gitlab.create_group('GitLab-Group',{:path =>'gitlab-path'})
       @group.name.should == "Gitlab-Group"
       @group.path.should == "gitlab-group"
+      @group.owner_id.should == 1
+    end
+
+    it "should handle blank paths" do
+      @group = Gitlab.create_group('GitLab-Group')
+      a_post("/groups").
+          with(:body => {:name => 'GitLab-Group'}).should have_been_made
+      @group.name.should == "Gitlab-Group"
+      @group.path.should == "gitlab-group"
+      @group.owner_id. == 1
+    end
+    it "should handle owners" do
+      @group = Gitlab.create_group('GitLab-Group', {:owner => 1})
+      @group.name.should == "Gitlab-Group"
+      @group.path.should == "gitlab-group"
+      @group.owner_id. == 1
     end
   end
 
@@ -44,7 +61,7 @@ describe Gitlab::Client do
       stub_post("/projects", "project")
       @project = Gitlab.create_project('Gitlab')
       stub_post("/groups", "group_create")
-      @group = Gitlab.create_group('GitLab-Group', 'gitlab-path')
+      @group = Gitlab.create_group('GitLab-Group')
 
       stub_post("/groups/#{@group.id}/projects/#{@project.id}", "group_create")
       @group_transfer = Gitlab.transfer_project_to_group(@group.id,@project.id)
