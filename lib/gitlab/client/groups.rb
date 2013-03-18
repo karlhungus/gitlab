@@ -11,10 +11,11 @@ class Gitlab::Client
 
     # Creates a new group
     #
-    # @param  [String] name
-    # @param  [String] path
-    def create_group(name, path)
-      body = {:name => name, :path => path}
+    # @param  [String] name (required) :
+    # @option options [String] :path the path to use for the group (defaults to downcased name)
+    # @option options [Integer] :owner the owner of the group (defaults to authenticated user)
+    def create_group(name, options={})
+      body = {:name => name}.merge(options)
       post("/groups", :body => body)
     end
 
