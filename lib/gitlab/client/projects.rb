@@ -104,8 +104,8 @@ class Gitlab::Client
     # @option options [Integer/String] :sudo The user id/username to preform the request as (admin only)
     # @return [Array<Gitlab::ObjectifiedHash>] Information about updated team member.
     def edit_team_member(project, id, access_level, options = {})
-      body ={:access_level => access_level}.merge(options)
-      put("/projects/#{project}/members/#{id}", :body => options)
+      body = {:access_level => access_level}.merge(options)
+      put("/projects/#{project}/members/#{id}", :body => body)
     end
 
     # Removes a user from project team.
